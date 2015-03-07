@@ -1,6 +1,8 @@
-function outputF=FuzzyController(e,de,g0,g1,h,rulebase,centerpoint,width,functiontype,COGtype)
+function outputF=FuzzyController(e,de,g0,g1,h,rulebase,centerpoint,...
+    width,functiontype,COGtype)
 % Fuzzy Controller for the inverted pendulum
-% outputF=FuzzyController(e,de,g0,g1,h,rulebase,centerpoint,width,functiontype,andtype)
+% outputF=FuzzyController(e,de,g0,g1,h,rulebase,centerpoint,...
+%               width,functiontype,andtype)
 % inputs:
 %   e: angle error -> e=-theta
 %   de: angle error change -> de=-dtheta
@@ -140,7 +142,8 @@ if strcmpi(COGtype,'min')
         end
     elseif strcmpi(functiontype,'Gaussian')
         surface_F=cell(1,M);
-        surface=@(h,w) 2*normcdf(-sqrt(-2*(w/8)^2*log(h)),0,w/8)+h*2*(sqrt(-2*(w/8)^2*log(h)));
+        surface=@(h,w) 2*normcdf(-sqrt(-2*(w/8)^2*log(h)),0,w/8)+...
+            h*2*(sqrt(-2*(w/8)^2*log(h)));
         for i=1:M
             widthvalue=width(3,i);
             surface_F{i}=@(h) surface(h,widthvalue);

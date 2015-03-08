@@ -131,7 +131,7 @@ end
 legend(legend_str,'Location',legend_position);
 grid on;
 axis([min(e) max(e) -0.1 1.1])
-xlabel('Angle Error','FontSize',fontsize)
+xlabel('Angle Error e (radians)','FontSize',fontsize)
 set(gca,'FontSize',fontsize);
 
 figure;
@@ -142,7 +142,7 @@ end
 grid on;
 legend(legend_str,'Location',legend_position);
 axis([min(de) max(de) -0.1 1.1])
-xlabel('Change of Error','FontSize',fontsize)
+xlabel('Angle Speed Error (radians/s)','FontSize',fontsize)
 set(gca,'FontSize',fontsize);
 
 figure;
@@ -153,5 +153,5 @@ end
 grid on;
 legend(legend_str,'Location',legend_position);
 axis([min(F) max(F) -0.1 1.1])
-xlabel('Force','FontSize',fontsize)
+xlabel('Output Force (N)','FontSize',fontsize)
 set(gca,'FontSize',fontsize);

@@ -3,14 +3,14 @@ function test_InvertedPendulum_without_controller(varargin)
 % test_InvertedPendulum_without_controller(t_step,L)
 % inputs:
 %   t_step: time step, default is 0.001
-%   L: step length, default is 5000
+%   L: step length, default is 10000
 % outputs:
 %   figure 1: force, angle acceleration, car position acceleration
 %   figure 2: angle situation, car position situation
 
     if isempty(varargin)
         t_step=0.001;
-        L=5000;
+        L=10000;
     else
         t_step=varargin{1};
         L=varargin{2};
@@ -45,21 +45,23 @@ function test_InvertedPendulum_without_controller(varargin)
     figure;
     subplot(3,1,1)
     plot(t,F,'LineWidth',linewidth,'MarkerSize',marksize);
-    axis([min(t) max(t) min(F) max(F)])
+    axis([min(t) max(t) min(F)-0.1 max(F)+0.1])
     grid on;
     xlabel('Time (s)','FontSize',fontsize);
     ylabel('Input Force (N)','FontSize',fontsize);
     set(gca,'FontSize',fontsize);
     subplot(3,1,2)
     plot(t,ddtheta,'LineWidth',linewidth,'MarkerSize',marksize);
-    axis([min(t) max(t) min(ddtheta) max(ddtheta)])
+    small_gap=abs(diff([min(ddtheta) max(ddtheta)]))/10;
+    axis([min(t) max(t) min(ddtheta)-small_gap max(ddtheta)+small_gap])
     grid on;
     xlabel('Time (s)','FontSize',fontsize);
     ylabel('Angle Acceleration','FontSize',fontsize);
     set(gca,'FontSize',fontsize);
     subplot(3,1,3)
     plot(t,ddx,'LineWidth',linewidth,'MarkerSize',marksize);
-    axis([min(t) max(t) min(ddx) max(ddx)])
+    small_gap=abs(diff([min(ddx) max(ddx)]))/10;
+    axis([min(t) max(t) min(ddx)-small_gap max(ddx)+small_gap])
     grid on;
     xlabel('Time (s)','FontSize',fontsize);
     ylabel('Car Acceleration','FontSize',fontsize);
@@ -67,14 +69,16 @@ function test_InvertedPendulum_without_controller(varargin)
     figure
     subplot(2,1,1)
     plot(t,theta,t,dtheta,'LineWidth',linewidth,'MarkerSize',marksize);
-    axis([min(t) max(t) min([min(theta) min(dtheta)]) max([max(theta) max(dtheta)])])
+    small_gap=abs(diff([min([min(theta) min(dtheta)]), max([max(theta) max(dtheta)])]))/10;
+    axis([min(t) max(t) min([min(theta) min(dtheta)])-small_gap max([max(theta) max(dtheta)])+small_gap])
     grid on;
     xlabel('Time (s)','FontSize',fontsize);
     legend('\theta','d\theta/dt')
     set(gca,'FontSize',fontsize);
     subplot(2,1,2)
     plot(t,x,t,dx,'LineWidth',linewidth,'MarkerSize',marksize);
-    axis([min(t) max(t) min([min(x) min(dx)]) max([max(x) max(dx)])])
+    small_gap=abs(diff([min([min(x) min(dx)]) max([max(x) max(dx)])]))/10;
+    axis([min(t) max(t) min([min(x) min(dx)])-small_gap max([max(x) max(dx)])+small_gap])
     grid on;
     xlabel('Time (s)','FontSize',fontsize);
     legend('x','dx/dt')

@@ -117,9 +117,13 @@ inputF(1)=F_0;
 % begin to test
 for i=2:L
     % Calculate next input force according to previous situation
-    inputF(i)=FuzzyController(reference_theta-theta(i-1),reference_dtheta-dtheta(i-1),g0,g1,h,rulebase,centerpoint,width,functiontype,COGtype);
+    inputF(i)=FuzzyController(reference_theta-theta(i-1),...
+        reference_dtheta-dtheta(i-1),g0,g1,h,rulebase,...
+        centerpoint,width,functiontype,COGtype);
     % Calculate next situation according to next input force
-    [t(i),theta(i),dtheta(i),ddtheta(i),x(i),dx(i),ddx(i),F(i)]=InvertedPendulum(t(i-1),theta(i-1),dtheta(i-1),ddtheta(i-1),x(i-1),dx(i-1),ddx(i-1),F(i-1),inputF(i),t_step);
+    [t(i),theta(i),dtheta(i),ddtheta(i),x(i),dx(i),ddx(i),F(i)]=...
+        InvertedPendulum(t(i-1),theta(i-1),dtheta(i-1),ddtheta(i-1),...
+        x(i-1),dx(i-1),ddx(i-1),F(i-1),inputF(i),t_step);
 end
 % plot results
 fontsize=20;

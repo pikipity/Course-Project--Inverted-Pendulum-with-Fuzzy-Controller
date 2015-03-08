@@ -1,6 +1,6 @@
 function test_membershipfunction(varargin)
 % Plot membership functions of e, de and F
-% test_membershipfunction(functiontype,e,de,F,centerpoint,width)
+% test_membershipfunction(variable1,value1,variable2,value2,...)
 % Inputs:
 %   functiontype: membership function type, default is 'triangle'
 %   e: range of e, default is -pi:0.001:pi
@@ -114,15 +114,21 @@ else
 end
 
 % Plot result
-fontsize=15;
-linewidth=3;
+fontsize=20;
+linewidth=5;
 marksize=10;
 c=hsv(M);
+legend_str=cell(1,M);
+for i=1:M
+    legend_str{i}=['"' num2str(i) '"'];
+end
+legend_position='NorthEastOutside';
 figure;
 hold on
 for i=1:M
 plot(e,function_e_store{i}(e),'LineWidth',linewidth,'MarkerSize',marksize,'Color',c(i,:))
 end
+legend(legend_str,'Location',legend_position);
 grid on;
 axis([min(e) max(e) -0.1 1.1])
 xlabel('Angle Error','FontSize',fontsize)
@@ -134,6 +140,7 @@ for i=1:M
 plot(de,function_de_store{i}(de),'LineWidth',linewidth,'MarkerSize',marksize,'Color',c(i,:))
 end
 grid on;
+legend(legend_str,'Location',legend_position);
 axis([min(de) max(de) -0.1 1.1])
 xlabel('Change of Error','FontSize',fontsize)
 set(gca,'FontSize',fontsize);
@@ -144,6 +151,7 @@ for i=1:M
 plot(F,function_F_store{i}(F),'LineWidth',linewidth,'MarkerSize',marksize,'Color',c(i,:))
 end
 grid on;
+legend(legend_str,'Location',legend_position);
 axis([min(F) max(F) -0.1 1.1])
 xlabel('Force','FontSize',fontsize)
 set(gca,'FontSize',fontsize);

@@ -142,7 +142,7 @@ if strcmpi(COGtype,'min')
         end
     elseif strcmpi(functiontype,'Gaussian')
         surface_F=cell(1,M);
-        surface=@(h,w) 2*normcdf(-sqrt(-2*(w/8)^2*log(h)),0,w/8)+...
+        surface=@(h,w) 2*normcdf(-sqrt(-2*(w/8)^2*log(h)),0,w/8)*w/8*sqrt(2*pi)+...
             h*2*(sqrt(-2*(w/8)^2*log(h)));
         for i=1:M
             widthvalue=width(3,i);

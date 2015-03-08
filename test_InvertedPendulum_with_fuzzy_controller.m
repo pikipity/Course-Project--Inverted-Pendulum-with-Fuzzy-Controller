@@ -1,7 +1,6 @@
 function test_InvertedPendulum_with_fuzzy_controller(varargin)
 % Test the fuzzy controller.
-% test_InvertedPendulum_with_fuzzy_controller(t_step, L, g0, g1, h, t_0,...
-% theta,x, F_0, rulebase, centerpoint, width, functiontype, COGtype)
+% test_InvertedPendulum_with_fuzzy_controller(variable1, value1, variable 2, value 2,...)
 % Inputs:
 %   t_step: time step, default is 0.001
 %   L: step length, default is 3/t_step (3 seconds)

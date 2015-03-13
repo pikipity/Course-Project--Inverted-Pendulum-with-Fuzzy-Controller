@@ -34,7 +34,7 @@ function test_InvertedPendulum_with_fuzzy_controller(varargin)
 %           three figures. Therefore, it must be a array containing 2 numbers)
 % outputs:
 %   figure 1: force, angle acceleration, car position acceleration
-%   figure 2: angle situation, car position situation
+%   figure 2: angle, angle speed, car position situation
 
 if mod(length(varargin),2)==1
     error('Error input. input should be (''t_0'',10)')
@@ -162,6 +162,7 @@ end
 fontsize=20;
 linewidth=5;
 marksize=10;
+% first figure
 figure(FigureNumber(1));
 subplot(3,1,1)
 plot(t,F,'LineWidth',linewidth,'MarkerSize',marksize);
@@ -184,19 +185,28 @@ grid on;
 xlabel('Time (s)','FontSize',fontsize);
 ylabel('d^2x/dt^2(m/s^2)','FontSize',fontsize);
 set(gca,'FontSize',fontsize);
+% second figure
 figure(FigureNumber(2));
-subplot(2,1,1)
-plot(t,theta,t,dtheta,'LineWidth',linewidth,'MarkerSize',marksize);
-axis([min(t) max(t) min([min(theta) min(dtheta)]) max([max(theta) max(dtheta)])])
+subplot(3,1,1)
+plot(t,theta,'LineWidth',linewidth,'MarkerSize',marksize);
+axis([min(t) max(t) min(theta) max(theta)])
 grid on;
 xlabel('Time (s)','FontSize',fontsize);
-legend('\theta (radians)','d\theta/dt (radians/s)')
+ylabel('\theta (radians)','FontSize',fontsize);
 set(gca,'FontSize',fontsize);
-subplot(2,1,2)
+subplot(3,1,2)
+plot(t,dtheta,'LineWidth',linewidth,'MarkerSize',marksize);
+axis([min(t) max(t) min(dtheta) max(dtheta)])
+grid on;
+xlabel('Time (s)','FontSize',fontsize);
+ylabel('d\theta/dt (radians/s)','FontSize',fontsize);
+set(gca,'FontSize',fontsize);
+subplot(3,1,3)
 plot(t,x,t,dx,'LineWidth',linewidth,'MarkerSize',marksize);
 axis([min(t) max(t) min([min(x) min(dx)]) max([max(x) max(dx)])])
 grid on;
 xlabel('Time (s)','FontSize',fontsize);
+ylabel('Cart Situation','FontSize',fontsize);
 legend('x (m)','dx/dt (m/s)')
 set(gca,'FontSize',fontsize);
 end

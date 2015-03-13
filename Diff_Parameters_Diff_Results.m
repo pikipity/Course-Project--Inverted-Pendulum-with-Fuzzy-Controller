@@ -1,8 +1,10 @@
-function Diff_Parameters_Diff_Results(ExpNumber)
+function Diff_Parameters_Diff_Results(ExpNumber,varargin)
 % This file is to show effects of different parameters
-% Diff_Parameters_Diff_Results(ExpNumber)
+% Diff_Parameters_Diff_Results(ExpNumber,Save)
 % Input: 
-%   ExpNumber can be one single number or an array. It follows:
+%   "ExpNumber" can be one single number or an array.
+%   "Save" can be ignored. If it is 1, save all display figures. Otherwise,
+%   figures will not be saved. default is 0.
 % ExpNumber:
 %   1 -> Experiment 1 (1)
 %   2 -> Experiment 1 (2)
@@ -62,6 +64,16 @@ function Diff_Parameters_Diff_Results(ExpNumber)
 % center points
 % figure 21 and figure 22
 
+if ~isempty(varargin)
+    Save=varargin{1};
+else
+    Save=0;
+end
+
+FigHandle=[];
+FigName={};
+FigPath='Simulation_Results/';
+
 for i=ExpNumber
     if i==1
         % 1. Experiment 1
@@ -70,9 +82,17 @@ for i=ExpNumber
         % is inputted.
         % (1) g0=1, g1=1, h=1: figure 1 and figure 2
         figure(1)
-        set(1,'Position',[156   100   693   560],'name','g0-1_g1-1_h-1_ForceAndAcceleration')
+        set(1,'Position',[156   100   693   560],...
+            'name','g0-1_g1-1_h-1_ForceAndAcceleration',...
+            'PaperPosition',[156   100   693   560],...
+            'PaperUnits','points',...
+            'PaperPositionMode','auto')
         figure(2)
-        set(2,'Position',[156   100   693   560],'name','g0-1_g1-1_h-1_AngleAndPosition')
+        set(2,'Position',[156   100   693   560],...
+            'name','g0-1_g1-1_h-1_AngleAndPosition',...
+            'PaperPosition',[156   100   693   560],...
+            'PaperUnits','points',...
+            'PaperPositionMode','auto')
         test_InvertedPendulum_with_fuzzy_controller('FigureNumber',[1,2]);
         figure(1)
         subplot(3,1,1)
@@ -80,12 +100,24 @@ for i=ExpNumber
         figure(2)
         subplot(3,1,1)
         ylim([0.07 0.11])
+        FigHandle(end+1)=1;
+        FigHandle(end+1)=2;
+        FigName{end+1}='g0-1_g1-1_h-1_ForceAndAcceleration';
+        FigName{end+1}='g0-1_g1-1_h-1_AngleAndPosition';
     elseif i==2
         % (2) g0=1, g1=0.1 h=1: figure 3 and figure 4
         figure(3)
-        set(3,'Position',[156   100   693   560],'name','g0-1_g1-0dot1_h-1_ForceAndAcceleration')
+        set(3,'Position',[156   100   693   560],...
+            'name','g0-1_g1-0dot1_h-1_ForceAndAcceleration',...
+            'PaperPosition',[156   100   693   560],...
+            'PaperUnits','points',...
+            'PaperPositionMode','auto')
         figure(4)
-        set(4,'Position',[156   100   693   560],'name','g0-1_g1-0dot1_h-1_AngleAndPosition')
+        set(4,'Position',[156   100   693   560],...
+            'name','g0-1_g1-0dot1_h-1_AngleAndPosition',...
+            'PaperPosition',[156   100   693   560],...
+            'PaperUnits','points',...
+            'PaperPositionMode','auto')
         test_InvertedPendulum_with_fuzzy_controller('g1',0.1,'FigureNumber',[3,4]);
         figure(3)
         subplot(3,1,1)
@@ -93,12 +125,24 @@ for i=ExpNumber
         figure(4)
         subplot(3,1,1)
         ylim([-0.05 0.15])
+        FigHandle(end+1)=3;
+        FigHandle(end+1)=4;
+        FigName{end+1}='g0-1_g1-0dot1_h-1_ForceAndAcceleration';
+        FigName{end+1}='g0-1_g1-0dot1_h-1_AngleAndPosition';
     elseif i==3
         % (3) g0=2, g1=0.1 h=1: figure 5 and figure 6
         figure(5)
-        set(5,'Position',[156   100   693   560],'name','g0-2_g1-0dot1_h-1_ForceAndAcceleration')
+        set(5,'Position',[156   100   693   560],...
+            'name','g0-2_g1-0dot1_h-1_ForceAndAcceleration',...
+            'PaperPosition',[156   100   693   560],...
+            'PaperUnits','points',...
+            'PaperPositionMode','auto')
         figure(6)
-        set(6,'Position',[156   100   693   560],'name','g0-2_g1-0dot1_h-1_AngleAndPosition')
+        set(6,'Position',[156   100   693   560],...
+            'name','g0-2_g1-0dot1_h-1_AngleAndPosition',...
+            'PaperPosition',[156   100   693   560],...
+            'PaperUnits','points',...
+            'PaperPositionMode','auto')
         test_InvertedPendulum_with_fuzzy_controller('g0',2,'g1',0.1,'FigureNumber',[5,6]);
         figure(5)
         subplot(3,1,1)
@@ -106,12 +150,24 @@ for i=ExpNumber
         figure(6)
         subplot(3,1,1)
         ylim([-0.05 0.15])
+        FigHandle(end+1)=5;
+        FigHandle(end+1)=6;
+        FigName{end+1}='g0-2_g1-0dot1_h-1_ForceAndAcceleration';
+        FigName{end+1}='g0-2_g1-0dot1_h-1_AngleAndPosition';
     elseif i==4
         % (4) g0=2, g1=0.1 h=5: figure 7 and figure 8
         figure(7)
-        set(7,'Position',[156   100   693   560],'name','g0-2_g1-0dot1_h-5_ForceAndAcceleration')
+        set(7,'Position',[156   100   693   560],...
+            'name','g0-2_g1-0dot1_h-5_ForceAndAcceleration',...
+            'PaperPosition',[156   100   693   560],...
+            'PaperUnits','points',...
+            'PaperPositionMode','auto')
         figure(8)
-        set(8,'Position',[156   100   693   560],'name','g0-2_g1-0dot1_h-5_AngleAndPosition')
+        set(8,'Position',[156   100   693   560],...
+            'name','g0-2_g1-0dot1_h-5_AngleAndPosition',...
+            'PaperPosition',[156   100   693   560],...
+            'PaperUnits','points',...
+            'PaperPositionMode','auto')
         test_InvertedPendulum_with_fuzzy_controller('g0',2,'g1',0.1,'h',5,'FigureNumber',[7,8]);
         figure(7)
         subplot(3,1,1)
@@ -119,6 +175,10 @@ for i=ExpNumber
         figure(8)
         subplot(3,1,1)
         ylim([-0.05 0.15])
+        FigHandle(end+1)=7;
+        FigHandle(end+1)=8;
+        FigName{end+1}='g0-2_g1-0dot1_h-5_ForceAndAcceleration';
+        FigName{end+1}='g0-2_g1-0dot1_h-5_AngleAndPosition';
     elseif i==5
         % 2. Experiment 2
         % Changing membership functions instead of changing input gain (g0)
@@ -130,9 +190,17 @@ for i=ExpNumber
         %     width=[pi/2 pi/2 pi/2 pi/2 pi/2;10*pi/4 10*pi/4 10*pi/4 10*pi/4 10*pi/4;20 20 20 20 20]
         %     figure 9 and figure 10
         figure(9)
-        set(9,'Position',[156   100   693   560],'name','g0-2_g1-1_h-1_equal_g1-0dot1_ForceAndAcceleration')
+        set(9,'Position',[156   100   693   560],...
+            'name','g0-2_g1-1_h-1_equal_g1-0dot1_ForceAndAcceleration',...
+            'PaperPosition',[156   100   693   560],...
+            'PaperUnits','points',...
+            'PaperPositionMode','auto')
         figure(10)
-        set(10,'Position',[156   100   693   560],'name','g0-2_g1-1_h-1_equal_g1-0dot1_AngleAndPosition')
+        set(10,'Position',[156   100   693   560],...
+            'name','g0-2_g1-1_h-1_equal_g1-0dot1_AngleAndPosition',...
+            'PaperPosition',[156   100   693   560],...
+            'PaperUnits','points',...
+            'PaperPositionMode','auto')
         test_InvertedPendulum_with_fuzzy_controller('g0',2,'g1',1,'h',1,'FigureNumber',[9,10],...
             'centerpoint',[-pi/2 -pi/4 0 pi/4 pi/2;-10*pi/4 -10*pi/8 0 10*pi/8 10*pi/4;-20 -10 0 10 20],...
             'width',[pi/2 pi/2 pi/2 pi/2 pi/2;10*pi/4 10*pi/4 10*pi/4 10*pi/4 10*pi/4;20 20 20 20 20]);
@@ -142,15 +210,27 @@ for i=ExpNumber
         figure(10)
         subplot(3,1,1)
         ylim([-0.05 0.15])
+        FigHandle(end+1)=9;
+        FigHandle(end+1)=10;
+        FigName{end+1}='g0-2_g1-1_h-1_equal_g1-0dot1_ForceAndAcceleration';
+        FigName{end+1}='g0-2_g1-1_h-1_equal_g1-0dot1_AngleAndPosition';
     elseif i==6
         % (2) g0=2, g1=0.1, h=1,
         %     centerpoint=[-pi/2 -pi/4 0 pi/4 pi/2;-pi/4 -pi/8 0 pi/8 pi/4;-100 -50 0 50 100],
         %     width=[pi/2 pi/2 pi/2 pi/2 pi/2;pi/4 pi/4 pi/4 pi/4 pi/4;100 100 100 100 100]
         %     figure 11 and figure 12
         figure(11)
-        set(11,'Position',[156   100   693   560],'name','g0-2_g1-0dot1_h-1_equal_h-5_ForceAndAcceleration')
+        set(11,'Position',[156   100   693   560],...
+            'name','g0-2_g1-0dot1_h-1_equal_h-5_ForceAndAcceleration',...
+            'PaperPosition',[156   100   693   560],...
+            'PaperUnits','points',...
+            'PaperPositionMode','auto')
         figure(12)
-        set(12,'Position',[156   100   693   560],'name','g0-2_g1-0dot1_h-1_equal_h-5_AngleAndPosition')
+        set(12,'Position',[156   100   693   560],...
+            'name','g0-2_g1-0dot1_h-1_equal_h-5_AngleAndPosition',...
+            'PaperPosition',[156   100   693   560],...
+            'PaperUnits','points',...
+            'PaperPositionMode','auto')
         test_InvertedPendulum_with_fuzzy_controller('g0',2,'g1',0.1,'h',1,'FigureNumber',[11,12],...
             'centerpoint',[-pi/2 -pi/4 0 pi/4 pi/2;-pi/4 -pi/8 0 pi/8 pi/4;-100 -50 0 50 100],...
             'width',[pi/2 pi/2 pi/2 pi/2 pi/2;pi/4 pi/4 pi/4 pi/4 pi/4;100 100 100 100 100]);
@@ -160,6 +240,10 @@ for i=ExpNumber
         figure(12)
         subplot(3,1,1)
         ylim([-0.05 0.15])
+        FigHandle(end+1)=11;
+        FigHandle(end+1)=12;
+        FigName{end+1}='g0-2_g1-0dot1_h-1_equal_h-5_ForceAndAcceleration';
+        FigName{end+1}='g0-2_g1-0dot1_h-1_equal_h-5_AngleAndPosition';
     elseif i==7
         % 3. Experiment 3
         % Change the center points of output's membership functions to
@@ -169,9 +253,17 @@ for i=ExpNumber
         %     width=[pi/2 pi/2 pi/2 pi/2 pi/2;pi/4 pi/4 pi/4 pi/4 pi/4;10 10 10 10 10]
         %     figure 13 and figure 14
         figure(13)
-        set(13,'Position',[156   100   693   560],'name','g0-2_g1-0dot1_h-10_Uniform_NoForce_ForceAndAcceleration')
+        set(13,'Position',[156   100   693   560],...
+            'name','g0-2_g1-0dot1_h-10_Uniform_NoForce_ForceAndAcceleration',...
+            'PaperPosition',[156   100   693   560],...
+            'PaperUnits','points',...
+            'PaperPositionMode','auto')
         figure(14)
-        set(14,'Position',[156   100   693   560],'name','g0-2_g1-0dot1_h-10_Uniform_NoForce_AngleAndPosition')
+        set(14,'Position',[156   100   693   560],...
+            'name','g0-2_g1-0dot1_h-10_Uniform_NoForce_AngleAndPosition',...
+            'PaperPosition',[156   100   693   560],...
+            'PaperUnits','points',...
+            'PaperPositionMode','auto')
         test_InvertedPendulum_with_fuzzy_controller('g0',2,'g1',0.1,'h',10,'FigureNumber',[13,14],...
             'centerpoint',[-pi/2 -pi/4 0 pi/4 pi/2;-pi/4 -pi/8 0 pi/8 pi/4;-10 -5 0 5 10],...
             'width',[pi/2 pi/2 pi/2 pi/2 pi/2;pi/4 pi/4 pi/4 pi/4 pi/4;10 10 10 10 10]);
@@ -181,15 +273,27 @@ for i=ExpNumber
         figure(14)
         subplot(3,1,1)
         ylim([-0.05 0.15])
+        FigHandle(end+1)=13;
+        FigHandle(end+1)=14;
+        FigName{end+1}='g0-2_g1-0dot1_h-10_Uniform_NoForce_ForceAndAcceleration';
+        FigName{end+1}='g0-2_g1-0dot1_h-10_Uniform_NoForce_AngleAndPosition';
     elseif i==8
         % (2) g0=2, g1=0.1, h=10, not uniform distribution, not extrnal force
         %     centerpoint=[-pi/2 -pi/4 0 pi/4 pi/2;-pi/4 -pi/8 0 pi/8 pi/4;-20 -5 0 5 20]
         %     width=[pi/2 pi/2 pi/2 pi/2 pi/2;pi/4 pi/4 pi/4 pi/4 pi/4;10 10 10 10 10]
         %     figure 15 and figure 16
         figure(15)
-        set(15,'Position',[156   100   693   560],'name','g0-2_g1-0dot1_h-10_NotUniform_NoForce_ForceAndAcceleration')
+        set(15,'Position',[156   100   693   560],...
+            'name','g0-2_g1-0dot1_h-10_NotUniform_NoForce_ForceAndAcceleration',...
+            'PaperPosition',[156   100   693   560],...
+            'PaperUnits','points',...
+            'PaperPositionMode','auto')
         figure(16)
-        set(16,'Position',[156   100   693   560],'name','g0-2_g1-0dot1_h-10_NotUniform_NoForce_AngleAndPosition')
+        set(16,'Position',[156   100   693   560],...
+            'name','g0-2_g1-0dot1_h-10_NotUniform_NoForce_AngleAndPosition',...
+            'PaperPosition',[156   100   693   560],...
+            'PaperUnits','points',...
+            'PaperPositionMode','auto')
         test_InvertedPendulum_with_fuzzy_controller('g0',2,'g1',0.1,'h',10,'FigureNumber',[15,16],...
             'centerpoint',[-pi/2 -pi/4 0 pi/4 pi/2;-pi/4 -pi/8 0 pi/8 pi/4;-20 -5 0 5 20],...
             'width',[pi/2 pi/2 pi/2 pi/2 pi/2;pi/4 pi/4 pi/4 pi/4 pi/4;10 10 10 10 10]);
@@ -199,6 +303,10 @@ for i=ExpNumber
         figure(16)
         subplot(3,1,1)
         ylim([-0.05 0.15])
+        FigHandle(end+1)=15;
+        FigHandle(end+1)=16;
+        FigName{end+1}='g0-2_g1-0dot1_h-10_NotUniform_NoForce_ForceAndAcceleration';
+        FigName{end+1}='g0-2_g1-0dot1_h-10_NotUniform_NoForce_AngleAndPosition';
     elseif i==9
         % (3) g0=2, g1=0.1, h=10, uniform distribution, Extrnal force 600N
         % from 0.99s to 1.01s
@@ -206,9 +314,17 @@ for i=ExpNumber
         %     width=[pi/2 pi/2 pi/2 pi/2 pi/2;pi/4 pi/4 pi/4 pi/4 pi/4;10 10 10 10 10]
         %     figure 17 and figure 18
         figure(17)
-        set(17,'Position',[156   100   693   560],'name','g0-2_g1-0dot1_h-10_Uniform_Force_ForceAndAcceleration')
+        set(17,'Position',[156   100   693   560],...
+            'name','g0-2_g1-0dot1_h-10_Uniform_Force_ForceAndAcceleration',...
+            'PaperPosition',[156   100   693   560],...
+            'PaperUnits','points',...
+            'PaperPositionMode','auto')
         figure(18)
-        set(18,'Position',[156   100   693   560],'name','g0-2_g1-0dot1_h-10_Uniform_Force_AngleAndPosition')
+        set(18,'Position',[156   100   693   560],...
+            'name','g0-2_g1-0dot1_h-10_Uniform_Force_AngleAndPosition',...
+            'PaperPosition',[156   100   693   560],...
+            'PaperUnits','points',...
+            'PaperPositionMode','auto')
         test_InvertedPendulum_with_fuzzy_controller('g0',2,'g1',0.1,'h',10,'FigureNumber',[17,18],...
             'centerpoint',[-pi/2 -pi/4 0 pi/4 pi/2;-pi/4 -pi/8 0 pi/8 pi/4;-10 -5 0 5 10],...
             'width',[pi/2 pi/2 pi/2 pi/2 pi/2;pi/4 pi/4 pi/4 pi/4 pi/4;10 10 10 10 10],...
@@ -219,6 +335,10 @@ for i=ExpNumber
         figure(18)
         subplot(3,1,1)
         ylim([-30 10])
+        FigHandle(end+1)=17;
+        FigHandle(end+1)=18;
+        FigName{end+1}='g0-2_g1-0dot1_h-10_Uniform_Force_ForceAndAcceleration';
+        FigName{end+1}='g0-2_g1-0dot1_h-10_Uniform_Force_AngleAndPosition';
     elseif i==10
         % (4) g0=2, g1=0.1, h=10, not uniform distribution, Extrnal force 600N
         % from 0.99s to 1.01s
@@ -226,9 +346,17 @@ for i=ExpNumber
         %     width=[pi/2 pi/2 pi/2 pi/2 pi/2;pi/4 pi/4 pi/4 pi/4 pi/4;10 10 10 10 10]
         %     figure 19 and figure 20
         figure(19)
-        set(19,'Position',[156   100   693   560],'name','g0-2_g1-0dot1_h-10_NotUniform_Force_ForceAndAcceleration')
+        set(19,'Position',[156   100   693   560],...
+            'name','g0-2_g1-0dot1_h-10_NotUniform_Force_ForceAndAcceleration',...
+            'PaperPosition',[156   100   693   560],...
+            'PaperUnits','points',...
+            'PaperPositionMode','auto')
         figure(20)
-        set(20,'Position',[156   100   693   560],'name','g0-2_g1-0dot1_h-10_NotUniform_Force_AngleAndPosition')
+        set(20,'Position',[156   100   693   560],...
+            'name','g0-2_g1-0dot1_h-10_NotUniform_Force_AngleAndPosition',...
+            'PaperPosition',[156   100   693   560],...
+            'PaperUnits','points',...
+            'PaperPositionMode','auto')
         test_InvertedPendulum_with_fuzzy_controller('g0',2,'g1',0.1,'h',10,'FigureNumber',[19,20],...
             'centerpoint',[-pi/2 -pi/4 0 pi/4 pi/2;-pi/4 -pi/8 0 pi/8 pi/4;-20 -5 0 5 20],...
             'width',[pi/2 pi/2 pi/2 pi/2 pi/2;pi/4 pi/4 pi/4 pi/4 pi/4;10 10 10 10 10],...
@@ -239,6 +367,10 @@ for i=ExpNumber
         figure(20)
         subplot(3,1,1)
         ylim([-0.6 0.2])
+        FigHandle(end+1)=19;
+        FigHandle(end+1)=20;
+        FigName{end+1}='g0-2_g1-0dot1_h-10_NotUniform_Force_ForceAndAcceleration';
+        FigName{end+1}='g0-2_g1-0dot1_h-10_NotUniform_Force_AngleAndPosition';
     elseif i==11
         % 4. Experiment 4: Plot control surface for g0=2, g1=0.1, h=10 with
         % uniform distribution center points and not uniform distribution
@@ -267,7 +399,11 @@ for i=ExpNumber
     width,functiontype,COGtype);
             end
         end
-        set(21,'Position',[156   191   678   469],'name','Control_Surface_Uniform_Center')
+        set(21,'Position',[156   191   678   469],...
+            'name','Control_Surface_Uniform_Center',...
+            'PaperPosition',[156   191   678   469],...
+            'PaperUnits','points',...
+            'PaperPositionMode','auto')
         meshplot1=meshz(X_e,Y_de,F);
         set(meshplot1,'LineWidth',1,...
             'EdgeAlpha',1,...
@@ -291,7 +427,11 @@ for i=ExpNumber
     width,functiontype,COGtype);
             end
         end
-        set(22,'Position',[156   191   678   469],'name','Control_Surface_NotUniform_Center')
+        set(22,'Position',[156   191   678   469],...
+            'name','Control_Surface_NotUniform_Center',...
+            'PaperPosition',[156   191   678   469],...
+            'PaperUnits','points',...
+            'PaperPositionMode','auto')
         meshplot2=meshz(X_e,Y_de,F);
         set(meshplot2,'LineWidth',1,...
             'EdgeAlpha',1,...
@@ -304,8 +444,18 @@ for i=ExpNumber
         grid on
         set(gca,'FontSize',fontsize);
         view(162,22);
+        FigHandle(end+1)=21;
+        FigHandle(end+1)=22;
+        FigName{end+1}='Control_Surface_Uniform_Center';
+        FigName{end+1}='Control_Surface_NotUniform_Center';
     else
         error(['Unknow experiment number: ' num2str(i)])
+    end
+end
+if Save==1
+    for i=1:length(FigHandle)
+        %saveas(FigHandle(i),[FigPath FigName{i}],'png');
+        print(FigHandle(i),'-depsc2',[FigPath FigName{i} '.eps']);
     end
 end
 end

@@ -38,7 +38,7 @@ function test_InvertedPendulum_without_controller(varargin)
     for i=2:L
         [t(i),theta(i),dtheta(i),ddtheta(i),x(i),dx(i),ddx(i),F(i)]...
             =InvertedPendulum(t(i-1),theta(i-1),dtheta(i-1),ddtheta(i-1),...
-            x(i-1),dx(i-1),ddx(i-1),F(i-1),inputF,t_step);
+            x(i-1),dx(i-1),ddx(i-1),F(i-1),inputF,t_step,600,0.99,1.01);
     end
     % plot results
     fontsize=20;

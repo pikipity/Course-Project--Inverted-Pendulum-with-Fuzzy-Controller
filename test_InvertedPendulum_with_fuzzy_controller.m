@@ -25,6 +25,11 @@ function test_InvertedPendulum_with_fuzzy_controller(varargin)
 %          default is [pi/2 pi/2 pi/2 pi/2 pi/2;pi/4 pi/4 pi/4 pi/4 pi/4;20 20 20 20 20]
 %   functiontype: membership function type, default is 'triangle'
 %   COGtype: fuzzy logic type, default is 'min'
+%   ForceInput (can be ignored): a force input inputted to the inverted
+%           pendulum from StartTime to EndTime (unit is N). It will follow
+%           the equation dF=F+ForceInput to generate force.
+%   StartTime (can be ignored): start time of force input
+%   EndTime (can be ignored): stop time of force input
 % outputs:
 %   figure 1: force, angle acceleration, car position acceleration
 %   figure 2: angle situation, car position situation
@@ -57,6 +62,9 @@ centerpoint=[-pi/2 -pi/4 0 pi/4 pi/2;-pi/4 -pi/8 0 pi/8 pi/4;-20 -10 0 10 20];
 width=[pi/2 pi/2 pi/2 pi/2 pi/2;pi/4 pi/4 pi/4 pi/4 pi/4;20 20 20 20 20];
 functiontype='triangle';
 COGtype='min';
+ForceInput=0;
+StartTime=0;
+EndTime=0;
 % Get input
 for i=1:2:length(varargin)
     if strcmpi(varargin{i},'t_step')
@@ -93,6 +101,14 @@ for i=1:2:length(varargin)
         functiontype=varargin{i+1};
     elseif strcmpi(varargin{i},'COGtype')
         COGtype=varargin{i+1};
+    elseif strcmpi(varargin{i},'ForceInput')
+        ForceInput=varargin{i+1};
+    elseif strcmpi(varargin{i},'StartTime')
+        StartTime=varargin{i+1};
+    elseif strcmpi(varargin{i},'EndTime')
+        EndTime=varargin{i+1};
+    else
+        error(['Unknown inputs: ' varargin{i}]);
     end
 end
 % Initial variables
@@ -114,6 +130,11 @@ dx(1)=dx_0;
 ddx(1)=ddx_0;
 F(1)=F_0;
 inputF(1)=F_0;
+if ForceInput==0 || StartTime==EndTime
+    isForceInput=0;
+else
+    isForceInput=1;
+end
 % begin to test
 for i=2:L
     % Calculate next input force according to previous situation
@@ -121,9 +142,16 @@ for i=2:L
         reference_dtheta-dtheta(i-1),g0,g1,h,rulebase,...
         centerpoint,width,functiontype,COGtype);
     % Calculate next situation according to next input force
-    [t(i),theta(i),dtheta(i),ddtheta(i),x(i),dx(i),ddx(i),F(i)]=...
-        InvertedPendulum(t(i-1),theta(i-1),dtheta(i-1),ddtheta(i-1),...
-        x(i-1),dx(i-1),ddx(i-1),F(i-1),inputF(i),t_step);
+    if ~isForceInput
+        [t(i),theta(i),dtheta(i),ddtheta(i),x(i),dx(i),ddx(i),F(i)]=...
+            InvertedPendulum(t(i-1),theta(i-1),dtheta(i-1),ddtheta(i-1),...
+            x(i-1),dx(i-1),ddx(i-1),F(i-1),inputF(i),t_step);
+    else
+        [t(i),theta(i),dtheta(i),ddtheta(i),x(i),dx(i),ddx(i),F(i)]=...
+            InvertedPendulum(t(i-1),theta(i-1),dtheta(i-1),ddtheta(i-1),...
+            x(i-1),dx(i-1),ddx(i-1),F(i-1),inputF(i),t_step,...
+            ForceInput,StartTime,EndTime);
+    end
 end
 % plot results
 fontsize=20;

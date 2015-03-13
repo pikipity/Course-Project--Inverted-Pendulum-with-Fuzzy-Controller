@@ -1,11 +1,12 @@
 function [t,theta,dtheta,ddtheta,x,dx,ddx,F]=InvertedPendulum(t0,theta0,...
-    dtheta0,ddtheta0,x0,dx0,ddx0,F0,inputF,t_step)
+    dtheta0,ddtheta0,x0,dx0,ddx0,F0,inputF,t_step,varargin)
 % Build a inverted pendulum model. Calculate the current values based on
 % the previous values. This model is from "Fuzzy Control" p.78 eq. (2.24).
 % According to equations in the book, we can get more parameters:
 %   l=0.5, m=0.5, M=1
 % [t,theta,dtheta,ddtheta,x,dx,ddx,F]=InvertedPendulum(t0,theta0,...
-%    dtheta0,ddtheta0,x0,dx0,ddx0,F0,inputF,t_step)
+%    dtheta0,ddtheta0,x0,dx0,ddx0,F0,inputF,t_step,...
+%    ForceInput,StartTime,EndTime)
 % inputs:
 %   t0: time value of previous step
 %   theta0: angle value of previous step
@@ -14,9 +15,14 @@ function [t,theta,dtheta,ddtheta,x,dx,ddx,F]=InvertedPendulum(t0,theta0,...
 %   x0: car position of previous step
 %   dx0: car speed of previous step
 %   ddx0: car acceleration of previous step
-%   F0: force value of previous step (after filter)
+%   F0: force value of previous step (after filter. filter: dF=-100.*F+100.*inputF)
 %   inputF: input force value of current step
 %   t_step: step size of time
+%   ForceInput (can be ignored): a force input inputted to the inverted
+%           pendulum from StartTime to EndTime (unit is N). It will follow
+%           the equation dF=F+ForceInput to generate force.
+%   StartTime (can be ignored): start time of force input
+%   EndTime (can be ignored): stop time of force input
 % outputs:
 %   t: time value of current step
 %   theta: angle value of current step
@@ -28,11 +34,30 @@ function [t,theta,dtheta,ddtheta,x,dx,ddx,F]=InvertedPendulum(t0,theta0,...
 %   F: force value of current step (after filter)
 
 % Get force
-fx_F=@(t,F,inputF) -100.*F+100.*inputF;
-fx=@(t,F) fx_F(t,F,inputF);
-[t,F]=ODE_RK(t0,F0,t_step,fx,1);
-t=t(end);
-F=F(end);
+if isempty(varargin)
+    fx_F=@(t,F,inputF) -100.*F+100.*inputF;
+    fx=@(t,F) fx_F(t,F,inputF);
+    [t,F]=ODE_RK(t0,inputF,t_step,fx,1);
+    t=t(end);
+    F=F(end);
+else
+    ForceInput=varargin{1};
+    StartTime=varargin{2};
+    EndTime=varargin{3};
+    if t0<=StartTime || t0>=EndTime
+        fx_F=@(t,F,inputF) -100.*F+100.*inputF;
+        fx=@(t,F) fx_F(t,F,inputF);
+        [t,F]=ODE_RK(t0,inputF,t_step,fx,1);
+        t=t(end);
+        F=F(end);
+    else
+        fx_F=@(t,F,ForceInput) F+ForceInput;
+        fx=@(t,F) fx_F(t,F,ForceInput);
+        [t,F]=ODE_RK(t0,F0,t_step,fx,1);
+        t=t(end);
+        F=F(end);
+    end
+end
 % Get theta
 theta=theta0+t_step.*dtheta0+0.5.*ddtheta0.*t_step.^2;
 % Get dtheta

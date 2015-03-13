@@ -20,7 +20,7 @@ function [t,theta,dtheta,ddtheta,x,dx,ddx,F]=InvertedPendulum(t0,theta0,...
 %   t_step: step size of time
 %   ForceInput (can be ignored): a force input inputted to the inverted
 %           pendulum from StartTime to EndTime (unit is N). It will follow
-%           the equation dF=F+ForceInput to generate force.
+%           the equation F=F+ForceInput to generate force.
 %   StartTime (can be ignored): start time of force input
 %   EndTime (can be ignored): stop time of force input
 % outputs:
@@ -34,30 +34,16 @@ function [t,theta,dtheta,ddtheta,x,dx,ddx,F]=InvertedPendulum(t0,theta0,...
 %   F: force value of current step (after filter)
 
 % Get force
-if isempty(varargin)
-    fx_F=@(t,F,inputF) -100.*F+100.*inputF;
-    fx=@(t,F) fx_F(t,F,inputF);
-    [t,F]=ODE_RK(t0,inputF,t_step,fx,1);
-    t=t(end);
-    F=F(end);
-else
-    ForceInput=varargin{1};
-    StartTime=varargin{2};
-    EndTime=varargin{3};
-    if t0<=StartTime || t0>=EndTime
-        fx_F=@(t,F,inputF) -100.*F+100.*inputF;
-        fx=@(t,F) fx_F(t,F,inputF);
-        [t,F]=ODE_RK(t0,inputF,t_step,fx,1);
-        t=t(end);
-        F=F(end);
-    else
-        fx_F=@(t,F,ForceInput) F+ForceInput;
-        fx=@(t,F) fx_F(t,F,ForceInput);
-        [t,F]=ODE_RK(t0,F0,t_step,fx,1);
-        t=t(end);
-        F=F(end);
+if ~isempty(varargin)
+    if t0>varargin{2} && t0<varargin{3}
+        inputF=inputF+varargin{1};
     end
 end
+fx_F=@(t,F,inputF) -100.*F+100.*inputF;
+fx=@(t,F) fx_F(t,F,inputF);
+[t,F]=ODE_RK(t0,F0,t_step,fx,1);
+t=t(end);
+F=F(end);
 % Get theta
 theta=theta0+t_step.*dtheta0+0.5.*ddtheta0.*t_step.^2;
 % Get dtheta

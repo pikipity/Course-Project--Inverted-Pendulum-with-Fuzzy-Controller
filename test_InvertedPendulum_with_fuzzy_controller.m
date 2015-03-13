@@ -30,6 +30,8 @@ function test_InvertedPendulum_with_fuzzy_controller(varargin)
 %           the equation dF=F+ForceInput to generate force.
 %   StartTime (can be ignored): start time of force input
 %   EndTime (can be ignored): stop time of force input
+%   FigureNumber: Specify the figures' numbers for outputs (Outputs are
+%           three figures. Therefore, it must be a array containing 2 numbers)
 % outputs:
 %   figure 1: force, angle acceleration, car position acceleration
 %   figure 2: angle situation, car position situation
@@ -60,6 +62,7 @@ rulebase=[5,5,5,4,3;
           3,2,1,1,1];
 centerpoint=[-pi/2 -pi/4 0 pi/4 pi/2;-pi/4 -pi/8 0 pi/8 pi/4;-20 -10 0 10 20];
 width=[pi/2 pi/2 pi/2 pi/2 pi/2;pi/4 pi/4 pi/4 pi/4 pi/4;20 20 20 20 20];
+FigureNumber=1:2;
 functiontype='triangle';
 COGtype='min';
 ForceInput=0;
@@ -107,6 +110,8 @@ for i=1:2:length(varargin)
         StartTime=varargin{i+1};
     elseif strcmpi(varargin{i},'EndTime')
         EndTime=varargin{i+1};
+    elseif strcmpi(varargin{i},'FigureNumber')
+        FigureNumber=varargin{i+1};
     else
         error(['Unknown inputs: ' varargin{i}]);
     end
@@ -157,7 +162,7 @@ end
 fontsize=20;
 linewidth=5;
 marksize=10;
-figure;
+figure(FigureNumber(1));
 subplot(3,1,1)
 plot(t,F,'LineWidth',linewidth,'MarkerSize',marksize);
 axis([min(t) max(t) min(F) max(F)])
@@ -179,7 +184,7 @@ grid on;
 xlabel('Time (s)','FontSize',fontsize);
 ylabel('d^2x/dt^2(m/s^2)','FontSize',fontsize);
 set(gca,'FontSize',fontsize);
-figure
+figure(FigureNumber(2));
 subplot(2,1,1)
 plot(t,theta,t,dtheta,'LineWidth',linewidth,'MarkerSize',marksize);
 axis([min(t) max(t) min([min(theta) min(dtheta)]) max([max(theta) max(dtheta)])])

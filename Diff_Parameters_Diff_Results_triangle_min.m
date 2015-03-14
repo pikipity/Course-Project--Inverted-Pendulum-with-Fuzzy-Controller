@@ -1,6 +1,7 @@
 function Diff_Parameters_Diff_Results_triangle_min(ExpNumber,varargin)
-% This file is to show effects of different parameters
-% Diff_Parameters_Diff_Results(ExpNumber,Save)
+% This file is to show effects of different parameters (triangular
+% membership functions and minimum premise)
+% Diff_Parameters_Diff_Results_triangle_min(ExpNumber,Save)
 % Input: 
 %   "ExpNumber" can be one single number or an array.
 %   "Save" can be ignored. If it is 1, save all display figures. Otherwise,

@@ -73,6 +73,9 @@ end
 FigHandle=[];
 FigName={};
 FigPath='Simulation_Results_triangle_min/';
+if exist(FigPath,'dir')~=7
+    mkdir(FigPath);
+end
 
 for i=ExpNumber
     if i==1

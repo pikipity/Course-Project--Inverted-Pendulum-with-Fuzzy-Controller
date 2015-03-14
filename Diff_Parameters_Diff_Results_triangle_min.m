@@ -1,4 +1,4 @@
-function Diff_Parameters_Diff_Results(ExpNumber,varargin)
+function Diff_Parameters_Diff_Results_triangle_min(ExpNumber,varargin)
 % This file is to show effects of different parameters
 % Diff_Parameters_Diff_Results(ExpNumber,Save)
 % Input: 
@@ -72,7 +72,7 @@ end
 
 FigHandle=[];
 FigName={};
-FigPath='Simulation_Results/';
+FigPath='Simulation_Results_triangle_min/';
 
 for i=ExpNumber
     if i==1

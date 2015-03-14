@@ -13,12 +13,12 @@ In this project, a inverted pendulum system controled by a simple fuzzy controll
 1. `test_membershipfunction.m`: Plot the membership functions based on the user's settings. Example results are `e_membershipfunction.pdf`, `de_membershipfunction.pdf` and `F_membershipfunction.pdf` in `Test_Results` floder.;
 2. `test_InvertedPendulum_without_controller.m`: Test the model of the inverted pendulum. No control is performed. Example results are `without_control_1.pdf` and `without_control_2.pdf` in `Test_Results` floder.;
 3. `test_InvertedPendulum_with_fuzzy_controller.m`: Simulate the fuzzy control process of the inverted pendulum. Example results are `force_**.pdf` and `angleandposition_**.pdf` in `Test_Results` floder.
-4. `Diff_Parameters_Diff_Results.m`: This file is to show the simulation results for effects of different parameters. Simulation results are in the `Simulation_Results` floder.
+4. `Diff_Parameters_Diff_Results_triangle_min.m`: This file is to show the simulation results for effects of different parameters. Simulation results are in the `Simulation_Results_triangle_min` floder (Membership functions are triangular. And use minimum to represent the premise and implication and COG classification)
 
 # Simulation Results
 
-1. There are some example testing results in the folder `Test_Results`. These example all follows the section "2.4 Simple Desgin Example: The Inverted Pendulum" of [1].
-2. Simulation results of `Diff_Parameters_Diff_Results.m` are all in the folder `Simulation_Results`. These simulations also follows the section "2.4 Simple Desgin Example: The Inverted Pendulum" of [1].
+1. There are some example results for testing simulation functions in the folder `Test_Results`. These example all follows the section "2.4 Simple Desgin Example: The Inverted Pendulum" of [1].
+2. Simulation results of `Diff_Parameters_Diff_Results_triangle_min.m` are all in the folder `Simulation_Results_triangle_min`. These simulations also follows the section "2.4 Simple Desgin Example: The Inverted Pendulum" of [1].
 
 ## Reference
 

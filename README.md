@@ -7,6 +7,7 @@ In this project, a inverted pendulum system controled by a simple fuzzy controll
 1. Model of the inverted pendulum system `InvertedPendulum.m`: Calculate the current enviroment values based on values of previous time step;
 2. Fourth order Runge Kutta method `ODE_RK.m`: Solve the ODE by using the fourth order Runge Kutta method. It is used in the `InvertedPendulum.m`;
 3. Fuzzy Controller `FuzzyController.m`: Based on the user's settings and measured values to calculate the force which will transferred to the inverted pendulum system. It is only contains two inputs and one outputs. One input is the angle error. Another input is the angle speed error. The output is the force.
+4. `ConvertEps2Pdf.sh`: Convert simulation results from eps figures to pdf figures. Only for Mac OS System. How to use it: In terminal, run `chmod +x ./ConvertEps2Pdf.sh;./ConvertEps2Pdf.sh`
 
 # Simulation Functions
 

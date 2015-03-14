@@ -45,9 +45,6 @@ end
 FigHandle=[];
 FigName={};
 FigPath='Simulation_Results_Gaussian_product/';
-if exist(FigPath,'dir')~=7
-    mkdir(FigPath);
-end
 
 for i=ExpNumber
     if i==1
@@ -340,6 +337,15 @@ for i=ExpNumber
     end
 end
 if Save==1
+    if length(unique(FigHandle))~=length(FigHandle)
+        error('There are repeat elements in ''FigHandle''. Please check program.')
+    end
+    if length(unique(FigName))~=length(FigName)
+        error('There are repeat elements in ''FigName''. Please check program.')
+    end
+    if exist(FigPath,'dir')~=7
+        mkdir(FigPath);
+    end
     for i=1:length(FigHandle)
         %saveas(FigHandle(i),[FigPath FigName{i}],'png');
         print(FigHandle(i),'-depsc2',[FigPath FigName{i} '.eps']);

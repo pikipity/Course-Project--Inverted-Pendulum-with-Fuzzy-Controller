@@ -11,6 +11,10 @@ function Diff_Parameters_Diff_Results_Gaussian_product(ExpNumber,varargin)
 %   2 -> Experiment 1 (2)
 %   3 -> Experiment 1 (3)
 %   4 -> Experiment 1 (4)
+%   5 -> Experiment 1 (5)
+%   6 -> Experiment 2 (1)
+%   7 -> Experiment 2 (2)
+%   8 -> Experiment 3
 % 1. Experiment 1
 % Different input gains (g0,g1) and output gain (h)
 % Initial angle is 0.1 radians. Other initial values are 0. No extral force
@@ -19,6 +23,18 @@ function Diff_Parameters_Diff_Results_Gaussian_product(ExpNumber,varargin)
 % (2) g0=1, g1=0.1 h=1: figure 3 and figure 4
 % (3) g0=2, g1=0.1 h=1: figure 5 and figure 6
 % (4) g0=2, g1=0.1 h=5: figure 7 and figure 8
+% (5) Turning input and output gains to make it stable
+%     Make it not oscillation (increase g1): g0=2, g1=1, h=5
+%     figure 9~16
+% 2. Experiment 2
+% (1) Insert a 600N force from 0.99s to 1.01s (Uniform distribution)
+%     figure 17 and figure 18
+% (2) Not stable. So change to Not Uniform distribution
+%     figure 19 and figure 20
+% 3. Experiment 3
+% Plot control surface of uniform and not uniform distribution
+% figure 21 and figure 22
+
 
 if ~isempty(varargin)
     Save=varargin{1};

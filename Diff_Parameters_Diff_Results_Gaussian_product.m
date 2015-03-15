@@ -24,7 +24,7 @@ function Diff_Parameters_Diff_Results_Gaussian_product(ExpNumber,varargin)
 % (3) g0=2, g1=0.1 h=1: figure 5 and figure 6
 % (4) g0=2, g1=0.1 h=5: figure 7 and figure 8
 % (5) Turning input and output gains to make it stable
-%     Make it not oscillation (increase g1): g0=2, g1=1, h=5
+%     Make it not oscillation
 %     figure 9~16
 % 2. Experiment 2
 % (1) Insert a 600N force from 0.99s to 1.01s (Uniform distribution)

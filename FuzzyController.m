@@ -152,7 +152,11 @@ if strcmpi(COGtype,'min')
         surface=zeros(M,N);
         for i=1:M
             for j=1:N
-                surface(i,j)=surface_F{rulebase(i,j)}(height(i,j));
+                if height(i,j)==0
+                    surface(i,j)=0;
+                else
+                    surface(i,j)=surface_F{rulebase(i,j)}(height(i,j));
+                end
             end
         end
     else

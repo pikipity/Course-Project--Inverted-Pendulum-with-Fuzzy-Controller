@@ -25,6 +25,10 @@ In this project, a inverted pendulum system controled by a simple fuzzy controll
 3. Simulation results of `Diff_Parameters_Diff_Results_Gaussian_product.m` are all in the folder `Simulation_Results_Gaussian_product`. These simulations are for "2.10 Design Problem 2.1" of [1].
 4. Simulation results of `Diff_Parameters_Diff_Results_49rules.m` are all in the folder `Simulation_Results_49rules`. These simulations are for "2.10 Design Problem 2.1" of [1].
 
-## Reference
+# Just for Fun
+
+`GUI_InvertedPendulumSimulation.m` is only for fun. 囧 
+
+# Reference
 
 [1] K. M. Passion and S. Yurkovich, *Fuzzy Cntrol*. Menlo Park, CA: Addison-Wesley, 1998.

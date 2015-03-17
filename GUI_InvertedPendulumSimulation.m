@@ -1,8 +1,8 @@
 function GUI_InvertedPendulumSimulation
 
 % Initial Data
-% theta0, dtheta0, ddtheta0, x0, dx0, ddx0, F0, inputF
-InitialValues=[0 0 0 0 0 0 0 0];
+% theta0, dtheta0, ddtheta0, x0, dx0, ddx0, F0, inputF, t
+InitialValues=[0 0 0 0 0 0 0 0 0];
 PreviousValue=InitialValues; % When start, recharge
 CurrentValues=InitialValues; % When start, recharge
 % Initial App Window
@@ -210,19 +210,64 @@ theta0_unit=uibutton(ValuePanel,'style','text',...
     function StartSimulation(hObject,eventdata,handles)
         if get(hObject,'Value')
             set(Start,'String','Stop');
+            InitialValues(9)=0;
             PreviousValue=InitialValues; % When start, recharge
             CurrentValues=InitialValues;
+            g0=2;
+            g1=0.1;
+            h=5;
+            rulebase=[5,5,5,4,3;
+                     5,5,4,3,2;
+                     5,4,3,2,1;
+                     4,3,2,1,1;
+                     3,2,1,1,1];
+            centerpoint=[-pi/2 -pi/4 0 pi/4 pi/2;-pi/4 -pi/8 0 pi/8 pi/4;-20 -10 0 10 20];
+            width=[pi/2 pi/2 pi/2 pi/2 pi/2;pi/4 pi/4 pi/4 pi/4 pi/4;20 20 20 20 20];
+            functiontype='triangle';
+            COGtype='min';
+            reference_theta=0;
+            reference_dtheta=0;
+            t_step=0.01;
+            Choice='Stop';
         else
             set(Start,'String','Start');
+            msgbox('Simulation has been stopped.', 'Simulation Finish');
         end
         % Begin simulation loop
         while get(hObject,'Value')
             % If angle is larger then 90 degree, stop.
-            if CurrentValues(1)>=pi/2 || CurrentValues(1)<=-pi/2
+            if CurrentValues(1)>pi/2 || CurrentValues(1)<-pi/2
+                if CurrentValues(1)>pi/2
+                    UpdatePlot([pi/2 0 0 0 0 0 0 0 0])
+                else
+                    UpdatePlot([-pi/2 0 0 0 0 0 0 0 0])
+                end
                 set(Start,'String','Start','Value',0);
+                errordlg('Failed....','Duang')
+                break;
+            % If angle is around 0, ask stop or not
+            elseif CurrentValues(1)<1e-3 && CurrentValues(1)>-1e-3 && CurrentValues(2)<1e-3 && CurrentValues(2)>-1e-3 && strcmpi(Choice,'Stop')
+                Choice=questdlg('Now, angle and angle speed are perfect!!','Success',...
+                    'Continue','Stop','Stop');
+                if strcmpi(Choice,'Stop')
+                    set(Start,'String','Start','Value',0);
+                    msgbox('Simulation has been stopped.', 'Simulation Finish');
+                    break;
+                end
             end
             % Otherwise, continue
-            errordlg('Not Finished!!','Warning')
+            % Calculate current input force according to previous situation
+            CurrentValues(8)=FuzzyController(reference_theta-PreviousValue(1),...
+                        reference_dtheta-PreviousValue(2),g0,g1,h,rulebase,...
+                        centerpoint,width,functiontype,COGtype);
+            [CurrentValues(9),CurrentValues(1),CurrentValues(2),CurrentValues(3),CurrentValues(4),CurrentValues(5),CurrentValues(6),CurrentValues(7)]=...
+                InvertedPendulum(PreviousValue(9),PreviousValue(1),PreviousValue(2),PreviousValue(3),...
+                                PreviousValue(4),PreviousValue(5),PreviousValue(6),PreviousValue(7),CurrentValues(8),t_step);
+            % Update Plot based on current states
+            UpdatePlot(CurrentValues);
+            % Current State becomes previous State
+            PreviousValue=CurrentValues;
+            pause(t_step)
         end
     end
 

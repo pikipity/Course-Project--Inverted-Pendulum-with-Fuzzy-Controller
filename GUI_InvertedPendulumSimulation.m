@@ -217,6 +217,122 @@ theta0_unit=uibutton(ValuePanel,'style','text',...
             errordlg('Please input a number.','Warning')
         end
     end
+%% Parameter Panel
+% Parameters of fuzzy controller
+% This panel needs to contain
+%   (1) g0
+%   (2) g1
+%   (3) h
+%   (4) reference theta
+%   (5) reference dtheta
+%   (6) membership function
+ParameterValuePanel=uipanel(fig_1,...
+    'units','pixels',...
+    'Position',PanelPosition2,...
+    'Title','Parameters','FontSize',11);
+g0_text=uibutton(ParameterValuePanel,'style','text',...
+    'String','g0=',...
+    'Position',[LH,PanelPosition2(4)/10,WD,HD],...
+    'FontSize',11);
+g0_value=uicontrol(ParameterValuePanel,'style','edit',...
+    'String',Gain(1),...
+    'callback',@g0_value_input,...
+    'Position',[2*LH+WD,PanelPosition2(4)/10,WD,HD],...
+    'FontSize',11);
+g1_text=uibutton(ParameterValuePanel,'style','text',...
+    'String','g1=',...
+    'Position',[3*LH+2*WD,PanelPosition2(4)/10,WD,HD],...
+    'FontSize',11);
+g1_value=uicontrol(ParameterValuePanel,'style','edit',...
+    'String',Gain(2),...
+    'callback',@g1_value_input,...
+    'Position',[4*LH+3*WD,PanelPosition2(4)/10,WD,HD],...
+    'FontSize',11);
+h_text=uibutton(ParameterValuePanel,'style','text',...
+    'String','h=',...
+    'Position',[5*LH+4*WD,PanelPosition2(4)/10,WD,HD],...
+    'FontSize',11);
+h_value=uicontrol(ParameterValuePanel,'style','edit',...
+    'String',Gain(3),...
+    'callback',@h_value_input,...
+    'Position',[6*LH+5*WD,PanelPosition2(4)/10,WD,HD],...
+    'FontSize',11);
+reference_angle_text=uibutton(ParameterValuePanel,'style','text',...
+    'String','$\theta_{\mbox{ref}}$=',...
+    'Position',[7*LH+6*WD,PanelPosition2(4)/10,WD,HD],...
+    'FontSize',11,...
+    'Interpreter','latex');
+reference_angle_value=uicontrol(ParameterValuePanel,'style','edit',...
+    'String',reference_theta,...
+    'callback',@reference_angle_value_input,...
+    'Position',[8*LH+7*WD,PanelPosition2(4)/10,WD,HD],...
+    'FontSize',11);
+reference_angle_speed_text=uibutton(ParameterValuePanel,'style','text',...
+    'String','$\frac{d\theta}{dt}_{\mbox{ref}}$=',...
+    'Position',[9*LH+8*WD,PanelPosition2(4)/10,WD,HD],...
+    'FontSize',11,...
+    'Interpreter','latex');
+reference_angle_speed_value=uicontrol(ParameterValuePanel,'style','edit',...
+    'String',reference_dtheta,...
+    'callback',@reference_angle_speed_value_input,...
+    'Position',[10*LH+9*WD,PanelPosition2(4)/10,WD,HD],...
+    'FontSize',11);
+    
+    function g0_value_input(h,dummy)
+        try
+            Gain(1)=eval(get(h,'String'));
+            set(g0_value,'String',Gain(1))
+        catch
+            set(g0_value,'String',Gain(1))
+            errordlg('Please input a number.','Warning')
+        end
+    end
+    function g1_value_input(h,dummy)
+        try
+            Gain(2)=eval(get(h,'String'));
+            set(g1_value,'String',Gain(2))
+        catch
+            set(g1_value,'String',Gain(2))
+            errordlg('Please input a number.','Warning')
+        end
+    end
+    function h_value_input(h,dummy)
+        try
+            Gain(3)=eval(get(h,'String'));
+            set(h_value,'String',Gain(3))
+        catch
+            set(h_value,'String',Gain(3))
+            errordlg('Please input a number.','Warning')
+        end
+    end
+    function reference_angle_value_input(h,dummy)
+        try
+            if eval(get(h,'String'))>pi/2
+                reference_theta=pi/2;
+                set(reference_angle_value,'String',reference_theta)
+                errordlg('Maximum angle is pi/2.','Warning')
+            elseif eval(get(h,'String'))<-pi/2
+                reference_theta=-pi/2;
+                set(reference_angle_value,'String',reference_theta)
+                errordlg('Minimum angle is pi/2.','Warning')
+            else
+                reference_theta=eval(get(h,'String'));
+                set(reference_angle_value,'String',reference_theta)
+            end
+        catch
+            set(reference_angle_value,'String',reference_theta)
+            errordlg('Please input a number.','Warning')
+        end
+    end
+    function reference_angle_speed_value_input(h,dummy)
+        try
+            reference_dtheta=eval(get(h,'String'));
+            set(reference_angle_speed_value,'String',reference_dtheta)
+        catch
+            set(reference_angle_speed_value,'String',reference_dtheta)
+            errordlg('Please input a number.','Warning')
+        end
+    end
 %% Build Current Values Panel
 % Current Value Panel
 % This Panel needs to contain
@@ -367,6 +483,14 @@ theta_unit=uibutton(CurrentValuePanel,'style','text',...
                 rulebase=[7,7,7,7,6,5,4;7,7,7,6,5,4,3;7,7,6,5,4,3,2;7,6,5,4,3,2,1;
                             6,5,4,3,2,1,1;5,4,3,2,1,1,1;4,3,2,1,1,1,1];
             end
+            g0=Gain(1);
+            g1=Gain(2);
+            h=Gain(3);
+            centerpointvalues=centerpoint;
+            referencevalue=[reference_theta reference_dtheta];
+            widthvalue=width;
+            functiontypevalue=functiontype;
+            COGtypevalue=COGtype;
             t_step=0.01;
             Choice='Stop';
         else
@@ -386,10 +510,10 @@ theta_unit=uibutton(CurrentValuePanel,'style','text',...
                 errordlg('Failed....','Duang')
                 break;
             % If angle is around 0, ask stop or not
-            elseif reference_theta-CurrentValues(1)<1e-3 &&...
-                    reference_theta-CurrentValues(1)>-1e-3 &&...
-                    reference_dtheta-CurrentValues(2)<1e-3 &&...
-                    reference_dtheta-CurrentValues(2)>-1e-3 &&...
+            elseif referencevalue(1)-CurrentValues(1)<1e-3 &&...
+                    referencevalue(1)-CurrentValues(1)>-1e-3 &&...
+                    referencevalue(2)-CurrentValues(2)<1e-3 &&...
+                    referencevalue(2)-CurrentValues(2)>-1e-3 &&...
                     strcmpi(Choice,'Stop')
                 Choice=questdlg('Now, angle and angle speed are almost perfect!! (abs(error)<1e-3)','Success',...
                     'Continue','Stop','Stop');
@@ -401,9 +525,9 @@ theta_unit=uibutton(CurrentValuePanel,'style','text',...
             end
             % Otherwise, continue
             % Calculate current input force according to previous situation
-            CurrentValues(8)=FuzzyController(reference_theta-PreviousValue(1),...
-                        reference_dtheta-PreviousValue(2),Gain(1),Gain(2),Gain(3),rulebase,...
-                        centerpoint,width,functiontype,COGtype);
+            CurrentValues(8)=FuzzyController(referencevalue(1)-PreviousValue(1),...
+                        referencevalue(2)-PreviousValue(2),g0,g1,h,rulebase,...
+                        centerpointvalues,widthvalue,functiontypevalue,COGtypevalue);
             [CurrentValues(9),CurrentValues(1),CurrentValues(2),CurrentValues(3),CurrentValues(4),CurrentValues(5),CurrentValues(6),CurrentValues(7)]=...
                 InvertedPendulum(PreviousValue(9),PreviousValue(1),PreviousValue(2),PreviousValue(3),...
                                 PreviousValue(4),PreviousValue(5),PreviousValue(6),PreviousValue(7),CurrentValues(8),t_step);
@@ -449,6 +573,8 @@ theta_unit=uibutton(CurrentValuePanel,'style','text',...
             PanelWidth+25 dim(4)/2-2*VerticalGap-2];
         PanelPosition1=[dim(3)/2.45 VerticalGap+10 ...
             PanelWidth+25 dim(4)/2-2*VerticalGap-2];
+        PanelPosition2=[HorizontalGap 0 ...
+            PanelWidth*7.28 dim(4)/20];
         % Initial Plot
         % Position:
         % [leftdownx,leftupx,rightupx,rightdownx;
@@ -470,22 +596,22 @@ theta_unit=uibutton(CurrentValuePanel,'style','text',...
         % plot cart
         CartPlot=patch(CartPosition(1,:),CartPosition(2,:),'b');
         % save plot
-        setappdata(0,'PlotData',{CartPlot,PendulumPlot,PendulumReference});
-        setappdata(0,'InitialPlotData',{CartPosition,PendulumPosition});
+        setappdata(fig_1,'PlotData',{CartPlot,PendulumPlot,PendulumReference});
+        setappdata(fig_1,'InitialPlotData',{CartPosition,PendulumPosition});
     end
 
 %% Update Plot function
     function UpdatePlot(CurrentSituation)
         % Update pendulum
         % get plot
-        PlotData=getappdata(0,'PlotData');
+        PlotData=getappdata(fig_1,'PlotData');
         CartPlot=PlotData{1};
         PendulumPlot=PlotData{2};
         PendulumReference=PlotData{3};
         % get angle
         RotationAngle=CurrentSituation(1);
         % get initial position
-        InitialPlotData=getappdata(0,'InitialPlotData');
+        InitialPlotData=getappdata(fig_1,'InitialPlotData');
         % calculate new position
         PendulumPositionOld=InitialPlotData{2};
         PendulumPositionNew=zeros(size(PendulumPositionOld));
@@ -498,7 +624,7 @@ theta_unit=uibutton(CurrentValuePanel,'style','text',...
         set(PendulumPlot,'XData',PendulumPositionNew(1,:));
         set(PendulumPlot,'YData',PendulumPositionNew(2,:));
         % save plot
-        setappdata(0,'PlotData',{CartPlot,PendulumPlot,PendulumReference});
+        setappdata(fig_1,'PlotData',{CartPlot,PendulumPlot,PendulumReference});
         % Update Current Values
         set(Time_value,'String',round(CurrentSituation(9)*1e4)/1e4);
         set(Fin_value,'String',round(CurrentSituation(8)*1e4)/1e4);
@@ -514,8 +640,8 @@ theta_unit=uibutton(CurrentValuePanel,'style','text',...
     % Close Function
     function del_app(varargin)
         try
-            rmappdata(0,'PlotData')
-            rmappdata(0,'InitialPlotData')
+            rmappdata(fig_1,'PlotData')
+            rmappdata(fig_1,'InitialPlotData')
         end
         delete(fig_1);
     end

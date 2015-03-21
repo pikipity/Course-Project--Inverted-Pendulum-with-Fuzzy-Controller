@@ -52,7 +52,7 @@ if strcmpi(functiontype,'triangle')
                                 +0.*(e>=(c+w./2));
     function_3_define=@(e,c,w) 0.*(e<(c-w./2))...
                                 +(2./w.*e+(1-2.*c./w)).*(e>=(c-w./2)&e<c)...
-                                +1.*(e>c);
+                                +1.*(e>=c);
     % Create membership function for e
     function_e_store=cell(1,M);
     function_e_store{1}=@(e) function_1_define(e,centerpoint(1,1),width(1,1));

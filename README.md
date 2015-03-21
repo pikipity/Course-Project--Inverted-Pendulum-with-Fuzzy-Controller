@@ -27,7 +27,9 @@ In this project, a inverted pendulum system controled by a simple fuzzy controll
 
 # Just for Fun
 
-`GUI_InvertedPendulumSimulation.m` is only for fun. 囧 
+`GUI_InvertedPendulumSimulation.m` is only for fun. (￣┰￣)
+
+![GUI Screenshot](https://raw.githubusercontent.com/pikipity/Course-Project--Inverted-Pendulum-with-Fuzzy-Controller/master/GUI%20screenshot.PNG)
 
 # Reference
 

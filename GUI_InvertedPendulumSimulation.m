@@ -15,7 +15,7 @@ COGtype='min';
 reference_theta=0;
 reference_dtheta=0;
 %% Initial App Window
-inithome
+[fig_1, GapValue, PanelPosition, PanelPosition1, PanelPosition2] = inithome;
 %% Build Initial Value Panel
 % Initial Value Input Panel
 % This Panel needs to contain
@@ -620,7 +620,7 @@ theta_unit=uibutton(CurrentValuePanel,'style','text',...
     end
 
 %% Initial Home Function
-    function inithome
+    function [fig_1, GapValue, PanelPosition, PanelPosition1, PanelPosition2] = inithome
         % init figure window
         set(0,'Units','pixels')
         dim = get(0,'ScreenSize');

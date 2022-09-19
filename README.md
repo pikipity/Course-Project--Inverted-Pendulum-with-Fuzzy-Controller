@@ -29,6 +29,8 @@ In this project, a inverted pendulum system controled by a simple fuzzy controll
 
 `GUI_InvertedPendulumSimulation.m` is only for fun. (￣┰￣)
 
+In MATLAB R2020b (Windows), the GUI is tested successfully. 
+
 ![GUI Screenshot](https://raw.githubusercontent.com/pikipity/Course-Project--Inverted-Pendulum-with-Fuzzy-Controller/master/GUI%20screenshot.PNG)
 
 # Reference
